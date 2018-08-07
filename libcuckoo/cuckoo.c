@@ -9,7 +9,8 @@ struct cuckoo_set *new_cuckoo_set(size_t initial_size,
 {
     struct cuckoo_set *table = malloc(sizeof(struct cuckoo_set));
     
-    // TODO: Initialize table bins
+    table->table1 = malloc(initial_size * sizeof(struct set_bin));
+    table->table2 = malloc(initial_size * sizeof(struct set_bin));
     
     table->key_comparison = key_comparison;
     table->key_destructor = key_destructor;
@@ -36,7 +37,8 @@ struct cuckoo_map *new_cuckoo_map(size_t initial_size,
 {
     struct cuckoo_map *table = malloc(sizeof(struct cuckoo_map));
     
-    // TODO: Initialize table bins
+    table->table1 = malloc(initial_size * sizeof(struct map_bin));
+    table->table2 = malloc(initial_size * sizeof(struct map_bin));
     
     table->key_comparison = key_comparison;
     table->key_destructor = key_destructor;
