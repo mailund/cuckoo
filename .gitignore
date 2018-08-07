@@ -12,6 +12,8 @@ CTestTestfile.cmake
 # Xcode
 CuckooHash.build
 CuckooHash.xcodeproj
+DartConfiguration.tcl
+tests/Debug/
 
 # Prerequisites
 *.d

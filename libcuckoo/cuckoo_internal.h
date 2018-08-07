@@ -1,4 +1,7 @@
 
+#ifndef CUCKOO_INTERNAL_H
+#define CUCKOO_INTERNAL_H
+
 #import "cuckoo.h"
 
 #pragma mark cuckoo sets
@@ -11,12 +14,6 @@ struct cuckoo_set {
     destructor_type key_destructor;
     comparison_type key_comparison;
 };
-
-struct cuckoo_set *new_cuckoo_set(size_t initial_size)
-{
-    struct cuckoo_set *table = malloc(sizeof(struct cuckoo_set));
-    return table;
-}
 
 #pragma mark cuckoo maps
 struct map_bin {
@@ -31,4 +28,8 @@ struct cuckoo_map {
     destructor_type value_destructor;
     comparison_type value_comparison;
 };
+
+
+
+#endif
 
