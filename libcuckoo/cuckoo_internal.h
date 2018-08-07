@@ -4,8 +4,13 @@
 
 #import "cuckoo.h"
 
+enum bin_tags {
+    EMPTY, OCCUPIED, FREE
+};
+
 #pragma mark cuckoo sets
 struct set_bin {
+    enum bin_tags tag;
     hash_key_type hash_key;
     void * application_key;
 };
@@ -22,6 +27,7 @@ struct cuckoo_set {
 
 #pragma mark cuckoo maps
 struct map_bin {
+    enum bin_tags tag;
     hash_key_type hash_key;
     void * application_key;
     void * application_value;

@@ -11,6 +11,10 @@ struct cuckoo_set *new_cuckoo_set(size_t initial_size,
     
     table->table1 = malloc(initial_size * sizeof(struct set_bin));
     table->table2 = malloc(initial_size * sizeof(struct set_bin));
+    for (size_t i = 0; i < initial_size; ++i) {
+        table->table1[i].tag = EMPTY;
+        table->table2[i].tag = EMPTY;
+    }
     
     table->key_comparison = key_comparison;
     table->key_destructor = key_destructor;
@@ -22,8 +26,9 @@ struct cuckoo_set *new_cuckoo_set(size_t initial_size,
 
 void delete_cuckoo_set(struct cuckoo_set *set)
 {
+    free(set->table1);
+    free(set->table2);
     free(set);
-    // TODO: free arrays of bins
 }
 
 
@@ -39,6 +44,10 @@ struct cuckoo_map *new_cuckoo_map(size_t initial_size,
     
     table->table1 = malloc(initial_size * sizeof(struct map_bin));
     table->table2 = malloc(initial_size * sizeof(struct map_bin));
+    for (size_t i = 0; i < initial_size; ++i) {
+        table->table1[i].tag = EMPTY;
+        table->table2[i].tag = EMPTY;
+    }
     
     table->key_comparison = key_comparison;
     table->key_destructor = key_destructor;
@@ -52,6 +61,7 @@ struct cuckoo_map *new_cuckoo_map(size_t initial_size,
 
 void delete_cuckoo_map(struct cuckoo_map *map)
 {
+    free(map->table1);
+    free(map->table2);
     free(map);
-    // TODO: free arrays of bins
 }

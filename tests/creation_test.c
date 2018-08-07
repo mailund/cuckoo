@@ -24,6 +24,22 @@ void destructor2(void *key)
     return;
 }
 
+void test_empty_set(struct cuckoo_set *set)
+{
+    for (size_t i = 0; i < set->table_size; ++i) {
+        assert(set->table1[i].tag == EMPTY);
+        assert(set->table2[i].tag == EMPTY);
+    }
+}
+
+void test_empty_map(struct cuckoo_map *map)
+{
+    for (size_t i = 0; i < map->table_size; ++i) {
+        assert(map->table1[i].tag == EMPTY);
+        assert(map->table2[i].tag == EMPTY);
+    }
+}
+
 #warning I haven't tested that the bin arrays are allocated yet.
 int main(int arvc, const char *argv[])
 {
@@ -37,6 +53,7 @@ int main(int arvc, const char *argv[])
     assert(set->key_destructor == 0);
     assert(set->table_size == initial_size);
     assert(set->table_used == 0);
+    test_empty_set(set);
     delete_cuckoo_set(set);
     
     set = new_cuckoo_set(initial_size, comparison, 0);
@@ -47,6 +64,7 @@ int main(int arvc, const char *argv[])
     assert(set->key_destructor == 0);
     assert(set->table_size == initial_size);
     assert(set->table_used == 0);
+    test_empty_set(set);
     delete_cuckoo_set(set);
     
     set = new_cuckoo_set(initial_size, 0, destructor);
@@ -57,6 +75,7 @@ int main(int arvc, const char *argv[])
     assert(set->key_destructor == destructor);
     assert(set->table_size == initial_size);
     assert(set->table_used == 0);
+    test_empty_set(set);
     delete_cuckoo_set(set);
     
     set = new_cuckoo_set(initial_size, comparison, destructor);
@@ -67,6 +86,7 @@ int main(int arvc, const char *argv[])
     assert(set->key_destructor == destructor);
     assert(set->table_size == initial_size);
     assert(set->table_used == 0);
+    test_empty_set(set);
     delete_cuckoo_set(set);
     
     struct cuckoo_map *map = new_cuckoo_map(initial_size, 0, 0, 0, 0);
@@ -79,6 +99,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == 0);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, comparison, 0, 0, 0);
@@ -91,6 +112,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == 0);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, 0, 0, comparison, 0);
@@ -103,6 +125,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == 0);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, comparison, 0, comparison2, 0);
@@ -117,6 +140,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == 0);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, comparison, destructor, 0, 0);
@@ -129,6 +153,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == 0);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, 0, 0, comparison, destructor);
@@ -141,6 +166,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == destructor);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     map = new_cuckoo_map(initial_size, comparison, destructor, comparison2, destructor2);
@@ -153,6 +179,7 @@ int main(int arvc, const char *argv[])
     assert(map->value_destructor == destructor2);
     assert(map->table_size == initial_size);
     assert(map->table_used == 0);
+    test_empty_map(map);
     delete_cuckoo_map(map);
 
     return EXIT_SUCCESS;
