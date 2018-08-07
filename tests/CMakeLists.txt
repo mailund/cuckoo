@@ -1,8 +1,12 @@
 include(CTest)
 
 include_directories("${PROJECT_SOURCE_DIR}/libcuckoo")
+set(PROJECT_LIBS cuckoo)
 
-add_executable(creation_test creation_test.c)
-target_link_libraries(creation_test cuckoo)
-add_test(CreationTest creation_test)
-
+file(GLOB files "*.c")
+foreach(file ${files})
+	string(REGEX REPLACE "(^.*/|\\.[^.]*$)" "" file_without_ext ${file})
+	add_executable(${file_without_ext} ${file})
+	target_link_libraries(${file_without_ext} ${PROJECT_LIBS})
+	add_test(${file_without_ext} ${file_without_ext})
+endforeach()

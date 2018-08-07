@@ -13,6 +13,8 @@ struct set_bin {
 struct cuckoo_set {
     destructor_type key_destructor;
     comparison_type key_comparison;
+    size_t table_size;
+    size_t table_used;
 };
 
 #pragma mark cuckoo maps
@@ -27,6 +29,8 @@ struct cuckoo_map {
     comparison_type key_comparison;
     destructor_type value_destructor;
     comparison_type value_comparison;
+    size_t table_size;
+    size_t table_used;
 };
 
 
