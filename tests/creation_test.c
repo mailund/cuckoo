@@ -28,7 +28,6 @@ void test_empty_set(struct cuckoo_set *set)
 {
     for (size_t i = 0; i < set->table_size; ++i) {
         assert(set->table1[i].tag == EMPTY);
-        assert(set->table2[i].tag == EMPTY);
     }
 }
 
@@ -36,14 +35,12 @@ void test_empty_map(struct cuckoo_map *map)
 {
     for (size_t i = 0; i < map->table_size; ++i) {
         assert(map->table1[i].tag == EMPTY);
-        assert(map->table2[i].tag == EMPTY);
     }
 }
 
-#warning I haven't tested that the bin arrays are allocated yet.
 int main(int arvc, const char *argv[])
 {
-    size_t initial_size = 5;
+    size_t initial_size = 6;
     
     struct cuckoo_set *set = new_cuckoo_set(initial_size, 0, 0);
     assert(set != 0);

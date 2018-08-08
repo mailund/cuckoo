@@ -10,3 +10,4 @@ foreach(file ${files})
 	target_link_libraries(${file_without_ext} ${PROJECT_LIBS})
 	add_test(${file_without_ext} ${file_without_ext})
 endforeach()
+
