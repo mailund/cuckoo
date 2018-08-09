@@ -1,3 +1,12 @@
+# generated files
+tests/creation_test
+tests/destruction_test
+tests/insertion_test
+
+# dirs I use for building the tool for different generations
+makefile_dir
+xcode_dir
+
 # CMAKE
 CMakeCache.txt
 CMakeFiles

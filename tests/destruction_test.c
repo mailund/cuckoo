@@ -6,8 +6,8 @@
 #include <stdbool.h>
 
 static const int table_size = 8;
-static int keys[table_size / 2];
-static int values[table_size / 2];
+static long int keys[table_size / 2];
+static long int values[table_size / 2];
 
 static void key_destructor(void *application_key)
 {

@@ -8,7 +8,7 @@ int main(int argc, const char *argv[])
     struct cuckoo_set *set = new_cuckoo_set(initial_size, 0, 0);
     assertion_msg(set != 0, "Failed to create set.");
     
-    error("Test not implemented yet.");
-
+    warning("Test not implemented yet.");
+    
     return EXIT_SUCCESS;
 }
