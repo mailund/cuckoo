@@ -83,7 +83,9 @@ void cuckoo_set_insert(struct cuckoo_set *set,
                        hash_key_type hash_key,
                        void *application_key)
 {
-    void *tmp; // for swapping
+    // for swapping
+    void *application_tmp;
+    hash_key_type hash_tmp;
     
     bool done = false;
     struct set_bin *bin;
@@ -97,8 +99,8 @@ void cuckoo_set_insert(struct cuckoo_set *set,
         int tableno = table_counter & 1;
         struct set_bin *table = HASH_TABLE(tableno, set);
         bin = &(table[HASH0(set, hash_key)]);
-        SWAP(hash_key, bin->hash_key, tmp)
-        SWAP(application_key, bin->application_key, tmp);
+        SWAP(hash_key, bin->hash_key, hash_tmp)
+        SWAP(application_key, bin->application_key, application_tmp);
         table_counter++;
         if (bin->tag == EMPTY) done = true; // no elements to insert
     } while (!done);

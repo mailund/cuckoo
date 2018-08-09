@@ -26,7 +26,7 @@ static void mockup_set_populate(struct cuckoo_set *set)
     for (int i = 0; i < table_size / 2; ++i) {
         keys[i] = i + 1;
         set->table0[i].tag = OCCUPIED;
-        set->table0[i].application_key = keys[i];
+        set->table0[i].application_key = (void *)keys[i];
     }
 }
 
@@ -45,8 +45,8 @@ static void mockup_map_populate(struct cuckoo_map *map)
         keys[i] = i + 1;
         values[i] = -(i + 1);
         map->table0[i].tag = OCCUPIED;
-        map->table0[i].application_key = keys[i];
-        map->table0[i].application_value = values[i];
+        map->table0[i].application_key = (void *)keys[i];
+        map->table0[i].application_value = (void *)values[i];
     }
 }
 
