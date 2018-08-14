@@ -2,7 +2,7 @@
 #ifndef CUCKOO_INTERNAL_H
 #define CUCKOO_INTERNAL_H
 
-#import "cuckoo.h"
+#include "cuckoo.h"
 
 // Largest prime that fits into 32 bits which
 // we are guaranteed can be held in size_t

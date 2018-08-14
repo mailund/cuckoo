@@ -1,5 +1,5 @@
 
-#import "cuckoo_internal.h"
+#include "cuckoo_internal.h"
 
 #include <stdio.h>
 #include <stdbool.h>
