@@ -3,24 +3,15 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #pragma mark auxilary functions
 // A macro so we can swap arbitrary types.
 #define SWAP(a,b,c) c = a; a = b; b = c;
 
-// These are macros rather than inline functions so they
-// work both with sets and maps.
+#define HASH(tableno, table, key)  (tableno ? HASH1(table, key) : HASH0(table, key))
+#define HASH_TABLE(tableno, table) (tableno ? (table)->table1 : (table)->table0)
 
-// TODO: replace modulus with bit operations
-#define HASH0(table, key) \
-    (size_t)(((table->a0 * key + table->b0) % LARGE_PRIME) & (table->table_size - 1))
-#define HASH1(table, key) \
-    (size_t)(((table->a1 * key + table->b1) % LARGE_PRIME) & (table->table_size - 1))
-
-#define HASH(tableno, table, key) \
-    (tableno ? HASH1(table, key) : HASH0(table, key))
-#define HASH_TABLE(tableno, table) \
-    (tableno ? (table)->table0 : (table)->table1)
 
 
 #pragma mark error handling functions
@@ -87,23 +78,34 @@ void cuckoo_set_insert(struct cuckoo_set *set,
     void *application_tmp;
     hash_key_type hash_tmp;
     
-    bool done = false;
+    // for easy access to bin
     struct set_bin *bin;
-    // I'm using the last bit of this to pick the table.
-    // This is so I can simply increment it to pick the other table.
-    int table_counter = 0;
     
-    // TODO: rehash if we iterate too long.
-    do {
-        // Low bit of table_counter picks the table.
-        int tableno = table_counter & 1;
+    int attempt_threshold = set->table_size; // FIXME, not this much
+
+    for (int i = 0; i < attempt_threshold; ++i) {
+        printf("i == %d\n", i);
+        
+        // I'm using the last bit of i to pick the table.
+        // This is so I can simply increment i to pick the other table.
+        int tableno = i & 1;
+        
         struct set_bin *table = HASH_TABLE(tableno, set);
-        bin = &(table[HASH0(set, hash_key)]);
+        size_t bin_index = HASH(tableno, set, hash_key);
+        bin = &(table[bin_index]);
+        
         SWAP(hash_key, bin->hash_key, hash_tmp)
         SWAP(application_key, bin->application_key, application_tmp);
-        table_counter++;
-        if (bin->tag == EMPTY) done = true; // no elements to insert
-    } while (!done);
+        
+        
+        if (bin->tag == EMPTY) {
+            bin->tag = OCCUPIED;
+            return; // done with insertion
+        }
+    }
+    
+    //error("At this point we should rehash. I haven't implemented that yet.");
+    assert(false);
 }
 
 #pragma mark cuckoo maps

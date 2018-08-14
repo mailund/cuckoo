@@ -8,6 +8,17 @@
 // we are guaranteed can be held in size_t
 #define LARGE_PRIME 2147483647
 
+#pragma mark auxilary functions
+// These are macros rather than inline functions so they
+// work both with sets and maps.
+
+// TODO: replace modulus with bit operations
+#define HASH0(table, key) \
+    (size_t)(((table->a0 * key + table->b0) % LARGE_PRIME) & (table->table_size - 1))
+#define HASH1(table, key) \
+    (size_t)(((table->a1 * key + table->b1) % LARGE_PRIME) & (table->table_size - 1))
+
+
 // I use tags so I don't have to make assumptions
 // on what application keys might be. Otherwise, I would
 // have to assume that an application key is not null.

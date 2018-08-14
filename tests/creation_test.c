@@ -2,34 +2,34 @@
 #include "cuckoo_internal.h"
 #include "testing.h"
 
-void comparison(void *key1, void *key2)
+static void comparison(void *key1, void *key2)
 {
     return;
 }
 
-void destructor(void *key)
+static void destructor(void *key)
 {
     return;
 }
 
-void comparison2(void *key1, void *key2)
+static void comparison2(void *key1, void *key2)
 {
     return;
 }
 
-void destructor2(void *key)
+static void destructor2(void *key)
 {
     return;
 }
 
-void test_empty_set(struct cuckoo_set *set)
+static void test_empty_set(struct cuckoo_set *set)
 {
     for (size_t i = 0; i < set->table_size; ++i) {
         assertion(set->table0[i].tag == EMPTY);
     }
 }
 
-void test_empty_map(struct cuckoo_map *map)
+static void test_empty_map(struct cuckoo_map *map)
 {
     for (size_t i = 0; i < map->table_size; ++i) {
         assertion(map->table0[i].tag == EMPTY);
