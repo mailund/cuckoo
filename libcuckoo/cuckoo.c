@@ -84,7 +84,6 @@ void cuckoo_set_insert(struct cuckoo_set *set,
     int attempt_threshold = set->table_size; // FIXME, not this much
 
     for (int i = 0; i < attempt_threshold; ++i) {
-        printf("i == %d\n", i);
         
         // I'm using the last bit of i to pick the table.
         // This is so I can simply increment i to pick the other table.

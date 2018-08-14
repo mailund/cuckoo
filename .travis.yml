@@ -5,6 +5,7 @@ matrix:
     - compiler: gcc
       install:
         - export COVERALLS_SERVICE_NAME=travis-ci
+        - export COVERALLS_REPO_TOKEN=m3LsUG5LILV38n8moeBJlwi0EPbrBdS6X
         - cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug -G"Unix Makefiles" .
         - make
       script:
