@@ -9,7 +9,7 @@ matrix:
       script:
         - make test
       after_success:
-        - make coverage
+        - make coveralls
 
     - compiler: clang
       install:
