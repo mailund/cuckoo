@@ -16,6 +16,10 @@ if (COVERALLS)
     coveralls_setup("${COVERAGE_SRCS}" ON) # ON / OFF upload
 endif()
 
+# Make sure we use C99 with gcc
+if (CMAKE_COMPILER_IS_GNUCC)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+endif()
 
 add_subdirectory(libcuckoo) 
 add_subdirectory(tests) 
