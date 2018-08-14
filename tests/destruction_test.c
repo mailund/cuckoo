@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-static const int table_size = 8;
-static long int keys[table_size / 2];
-static long int values[table_size / 2];
+#define TABLE_SIZE 8
+static long int keys[TABLE_SIZE / 2];
+static long int values[TABLE_SIZE / 2];
 
 static void key_destructor(void *application_key)
 {
@@ -23,7 +23,7 @@ static void value_destructor(void *application_value)
 
 static void mockup_set_populate(struct cuckoo_set *set)
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         keys[i] = i + 1;
         set->table0[i].tag = OCCUPIED;
         set->table0[i].application_key = (void *)keys[i];
@@ -32,7 +32,7 @@ static void mockup_set_populate(struct cuckoo_set *set)
 
 static bool check_set_keys(struct cuckoo_set *set)
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         if (keys[i] != (int)set->table0[i].application_key)
             return false;
     }
@@ -41,7 +41,7 @@ static bool check_set_keys(struct cuckoo_set *set)
 
 static void mockup_map_populate(struct cuckoo_map *map)
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         keys[i] = i + 1;
         values[i] = -(i + 1);
         map->table0[i].tag = OCCUPIED;
@@ -52,7 +52,7 @@ static void mockup_map_populate(struct cuckoo_map *map)
 
 static bool check_map_keys(struct cuckoo_map *map)
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         if (keys[i] != (int)map->table0[i].application_key)
             return false;
     }
@@ -61,7 +61,7 @@ static bool check_map_keys(struct cuckoo_map *map)
 
 static bool check_map_values(struct cuckoo_map *map)
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         if (values[i] != (int)map->table0[i].application_value)
             return false;
     }
@@ -70,7 +70,7 @@ static bool check_map_values(struct cuckoo_map *map)
 
 static bool check_keys_deleted()
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         if (keys[i] != 0) return false;
     }
     return true;
@@ -78,7 +78,7 @@ static bool check_keys_deleted()
 
 static bool check_values_deleted()
 {
-    for (int i = 0; i < table_size / 2; ++i) {
+    for (int i = 0; i < TABLE_SIZE / 2; ++i) {
         if (values[i] != 0) return false;
     }
     return true;
@@ -86,13 +86,13 @@ static bool check_values_deleted()
 
 int main(int argc, const char *argv[])
 {
-    struct cuckoo_set *set = new_cuckoo_set(table_size, 0, key_destructor);
+    struct cuckoo_set *set = new_cuckoo_set(TABLE_SIZE, 0, key_destructor);
     mockup_set_populate(set);
     assertion(check_set_keys(set));
     delete_cuckoo_set(set);
     assertion(check_keys_deleted());
     
-    struct cuckoo_map *map = new_cuckoo_map(table_size, 0, key_destructor, 0, value_destructor);
+    struct cuckoo_map *map = new_cuckoo_map(TABLE_SIZE, 0, key_destructor, 0, value_destructor);
     mockup_map_populate(map);
     assertion(check_map_keys(map));
     assertion(check_map_values(map));
