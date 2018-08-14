@@ -4,6 +4,7 @@ matrix:
   include:
     - compiler: gcc
       install:
+        - export COVERALLS_SERVICE_NAME=travis-ci
         - cmake -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug -G"Unix Makefiles" .
         - make
       script:
