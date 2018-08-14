@@ -157,12 +157,43 @@ void delete_cuckoo_map(struct cuckoo_map *map)
     free(map);
 }
 
-void cuckoo_map_insert(struct cuckoo_set *map,
+void cuckoo_map_insert(struct cuckoo_map *map,
                        hash_key_type hash_key,
                        void *application_key,
                        void *application_value)
 {
-#warning Not implemented yet
+    // for swapping
+    void *application_key_tmp, *application_value_tmp;
+    hash_key_type hash_tmp;
+    
+    // for easy access to bin
+    struct map_bin *bin;
+    
+    int attempt_threshold = map->table_size; // FIXME, not this much
+    
+    for (int i = 0; i < attempt_threshold; ++i) {
+        
+        // I'm using the last bit of i to pick the table.
+        // This is so I can simply increment i to pick the other table.
+        int tableno = i & 1;
+        
+        struct map_bin *table = HASH_TABLE(tableno, map);
+        size_t bin_index = HASH(tableno, map, hash_key);
+        bin = &(table[bin_index]);
+        
+        SWAP(hash_key, bin->hash_key, hash_tmp)
+        SWAP(application_key, bin->application_key, application_key_tmp);
+        SWAP(application_value, bin->application_value, application_value_tmp);
+        
+        if (bin->tag == EMPTY) {
+            bin->tag = OCCUPIED;
+            return; // done with insertion
+        }
+    }
+    
+    //error("At this point we should rehash. I haven't implemented that yet.");
+    assert(false);
+
 }
 
 

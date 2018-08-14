@@ -27,7 +27,7 @@ struct cuckoo_map *new_cuckoo_map(size_t initial_size,
                                  comparison_type value_comparison,
                                  destructor_type value_destructor);
 void delete_cuckoo_map           (struct cuckoo_map *map);
-void cuckoo_map_insert           (struct cuckoo_set *map,
+void cuckoo_map_insert           (struct cuckoo_map *map,
                                   hash_key_type hash_key,
                                   void *application_key,
                                   void *application_value);
