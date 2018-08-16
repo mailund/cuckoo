@@ -23,8 +23,13 @@ static int a1 = 10, b1 = 1;
     HASH0(5l) == 12l -- HASH1(5l) == 3l.
     HASH0(6l) == 0l -- HASH1(6l) == 13l.
 */
-// FIXME: I don't actually test how it deals with
+// FIXME: I don't actually test how it deals with id:6
 // collisions on the second hash function...
+//   
+// ----
+// <https://github.com/mailund/cuckoo/issues/6>
+// Thomas Mailund
+// mailund@birc.au.dk
 
 static void initialise_hash_keys()
 {

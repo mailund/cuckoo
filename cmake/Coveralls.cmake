@@ -72,7 +72,12 @@ function(coveralls_setup _COVERAGE_SRCS _COVERALLS_UPLOAD)
 		# We do this by executing an external CMake script.
 		# (We don't want this to run at CMake generation time, but after compilation and everything has run).
 		COMMAND ${CMAKE_COMMAND}
-				-DCOVERAGE_SRCS="${COVERAGE_SRCS}" # TODO: This is passed like: "a b c", not "a;b;c"
+				-DCOVERAGE_SRCS="${COVERAGE_SRCS}" # TODO: This is passed like: "a b c", not "a;b;c" id:0
+                                       #   
+                                       # ----
+                                       # <https://github.com/mailund/cuckoo/issues/3>
+                                       # Thomas Mailund
+                                       # mailund@birc.au.dk
 				-DCOVERALLS_OUTPUT_FILE="${COVERALLS_FILE}"
 				-DCOV_PATH="${PROJECT_BINARY_DIR}"
 				-DPROJECT_ROOT="${PROJECT_SOURCE_DIR}"

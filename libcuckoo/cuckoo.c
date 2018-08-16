@@ -81,7 +81,10 @@ void cuckoo_set_insert(struct cuckoo_set *set,
     // for easy access to bin
     struct set_bin *bin;
     
-    int attempt_threshold = set->table_size; // FIXME, not this much
+    int attempt_threshold = set->table_size; // FIXME , not this much id:9
+                                             //   
+                                             // ----
+                                             // <https://github.com/mailund/cuckoo/issues/8>
 
     for (int i = 0; i < attempt_threshold; ++i) {
         
@@ -169,7 +172,10 @@ void cuckoo_map_insert(struct cuckoo_map *map,
     // for easy access to bin
     struct map_bin *bin;
     
-    int attempt_threshold = map->table_size; // FIXME, not this much
+    int attempt_threshold = map->table_size; // FIXME , not this much id:15
+                                             //   
+                                             // ----
+                                             // <https://github.com/mailund/cuckoo/issues/12>
     
     for (int i = 0; i < attempt_threshold; ++i) {
         
