@@ -12,7 +12,12 @@
 // These are macros rather than inline functions so they
 // work both with sets and maps.
 
-// TODO: replace modulus with bit operations
+// TODO: replace modulus with bit operations id:12
+//   
+// ----
+// <https://github.com/mailund/cuckoo/issues/10>
+// Thomas Mailund
+// mailund@birc.au.dk
 #define HASH0(table, key) \
     (size_t)(((table->a0 * key + table->b0) % LARGE_PRIME) & (table->table_size - 1))
 #define HASH1(table, key) \

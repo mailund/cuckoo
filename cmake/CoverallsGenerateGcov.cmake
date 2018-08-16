@@ -105,7 +105,12 @@ set(JSON_REPO_TEMPLATE
   }"
 )
 
-# TODO: Fill in git remote data
+# TODO: Fill in git remote data id:7
+#   
+# ----
+# <https://github.com/mailund/cuckoo/issues/7>
+# Thomas Mailund
+# mailund@birc.au.dk
 if (GIT_FOUND)
 	# Branch.
 	execute_process(
@@ -209,7 +214,12 @@ foreach(GCDA ${GCDA_FILES})
 	)
 endforeach()
 
-# TODO: Make these be absolute path
+# TODO: Make these be absolute path id:13
+#   
+# ----
+# <https://github.com/mailund/cuckoo/issues/11>
+# Thomas Mailund
+# mailund@birc.au.dk
 file(GLOB ALL_GCOV_FILES ${COV_PATH}/*.gcov)
 
 # Get only the filenames to use for filtering.
@@ -256,7 +266,12 @@ foreach (GCOV_FILE ${ALL_GCOV_FILES})
 	file(RELATIVE_PATH GCOV_SRC_REL_PATH "${PROJECT_ROOT}" "${GCOV_SRC_PATH}")
 
 	# Is this in the list of source files?
-	# TODO: We want to match against relative path filenames from the source file root...
+	# TODO: We want to match against relative path filenames from the source file root... id:10
+ #   
+ # ----
+ # <https://github.com/mailund/cuckoo/issues/9>
+ # Thomas Mailund
+ # mailund@birc.au.dk
 	list(FIND COVERAGE_SRCS ${GCOV_SRC_PATH} WAS_FOUND)
 
 	if (NOT WAS_FOUND EQUAL -1)
@@ -272,7 +287,12 @@ foreach (GCOV_FILE ${ALL_GCOV_FILES})
 	endif()
 endforeach()
 
-# TODO: Enable setting these
+# TODO: Enable setting these id:4
+#   
+# ----
+# <https://github.com/mailund/cuckoo/issues/5>
+# Thomas Mailund
+# mailund@birc.au.dk
 set(JSON_SERVICE_NAME "travis-ci")
 set(JSON_SERVICE_JOB_ID $ENV{TRAVIS_JOB_ID})
 set(JSON_REPO_TOKEN $ENV{COVERALLS_REPO_TOKEN})
