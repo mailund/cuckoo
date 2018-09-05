@@ -3,34 +3,47 @@
 #define CUCKOO_H
 
 #include <stdlib.h>
+#include <stdbool.h>
 
-typedef size_t hash_key_type;
-struct cuckoo_set;
-struct cuckoo_map;
+typedef size_t application_key_type;
+typedef void * application_value_type;
 
-typedef void (*destructor_type)(void *);
-typedef void (*comparison_type)(void *, void *);
+/*
+ These two functions are used to configure how application values are handled.
+ 
+ Application keys are always assumed to be computer words that fit into size_t,
+ and the user must make sure to map any application data to a key.
+ The corresponding application values can be any type, and these two functions deal
+ with that.
+ 
+ The destructor deletes application values; if you do not provide it,
+ they will not be freed (so they should either not need to be freed or be
+ freed elsewhere).
+ 
+ The comparison function can be used to test equality. If it is not provided,
+ then actual equallity (==) is used to compare the application values. 
+ */
+typedef void (*destructor_func_type)(application_value_type);
+typedef bool (*equality_func_type)  (application_value_type,
+                                     application_value_type);
 
-#pragma mark cukoo sets
-struct cuckoo_set *new_cuckoo_set(size_t initial_size,
-                                 comparison_type key_comparison,
-                                 destructor_type key_destructor);
-void delete_cuckoo_set           (struct cuckoo_set *set);
-void cuckoo_set_insert           (struct cuckoo_set *set,
-                                  hash_key_type hash_key,
-                                  void *application_key);
+struct cuckoo_table;
 
-#pragma mark cuckoo maps
-struct cuckoo_map *new_cuckoo_map(size_t initial_size,
-                                 comparison_type key_comparison,
-                                 destructor_type key_destructor,
-                                 comparison_type value_comparison,
-                                 destructor_type value_destructor);
-void delete_cuckoo_map           (struct cuckoo_map *map);
-void cuckoo_map_insert           (struct cuckoo_map *map,
-                                  hash_key_type hash_key,
-                                  void *application_key,
-                                  void *application_value);
+struct cuckoo_table *
+new_cuckoo_table            (size_t                  initial_size,
+                             equality_func_type      value_equality,
+                             destructor_func_type    value_destructor);
+void
+delete_cuckoo_table         (struct cuckoo_table    *set);
+
+bool
+cuckoo_table_contains       (struct cuckoo_table    *set,
+                             application_key_type    application_key,
+                             application_value_type  application_value);
+void
+cuckoo_table_insert         (struct cuckoo_table    *set,
+                             application_key_type    application_key,
+                             application_value_type  application_value);
 
 #endif
 

@@ -4,72 +4,55 @@
 
 #include "cuckoo.h"
 
-// Largest prime that fits into 32 bits which
-// we are guaranteed can be held in size_t
-#define LARGE_PRIME 2147483647
+typedef size_t hash_key_type;
+typedef void *hash_index_type; // Index here means into the family of functions
 
-#pragma mark auxilary functions
-// These are macros rather than inline functions so they
-// work both with sets and maps.
+typedef hash_index_type (*new_hash_index_func_type) (hash_index_type old_index);
+typedef void            (*free_hash_index_func_type)(hash_index_type old_index);
+typedef hash_key_type   (*hash_func_type)(application_key_type app_key,
+                                          hash_index_type hash_index);
 
-// TODO: replace modulus with bit operations id:12
-//   
-// ----
-// <https://github.com/mailund/cuckoo/issues/10>
-// Thomas Mailund
-// mailund@birc.au.dk
-#define HASH0(table, key) \
-    (size_t)(((table->a0 * key + table->b0) % LARGE_PRIME) & (table->table_size - 1))
-#define HASH1(table, key) \
-    (size_t)(((table->a1 * key + table->b1) % LARGE_PRIME) & (table->table_size - 1))
-
-
-// I use tags so I don't have to make assumptions
-// on what application keys might be. Otherwise, I would
-// have to assume that an application key is not null.
-enum tags {
-    EMPTY, OCCUPIED
-};
-
-#pragma mark cuckoo sets
-struct set_bin {
-    enum tags tag;
-    hash_key_type hash_key;
-    void * application_key;
-};
-
-struct cuckoo_set {
-    struct set_bin *table0;
-    struct set_bin *table1;
-    size_t table_size;
-    size_t table_used;
-    size_t a0, a1, b0, b1; // Defining hash functions
-
-    destructor_type key_destructor;
-    comparison_type key_comparison;
-};
-
-#pragma mark cuckoo maps
-struct map_bin {
-    enum tags tag;
-    hash_key_type hash_key;
-    void * application_key;
-    void * application_value;
-};
-
-struct cuckoo_map {
-    struct map_bin *table0;
-    struct map_bin *table1;
-    size_t table_size;
-    size_t table_used;
-
-    size_t a0, a1, b0, b1; // Defining hash functions
+struct table_bin {
+    // I use tags so I don't have to make assumptions
+    // on what application keys might be. Otherwise, I would
+    // have to assume that an application key is not null.
+    enum { EMPTY, OCCUPIED } tag;
     
-    destructor_type key_destructor;
-    comparison_type key_comparison;
-    destructor_type value_destructor;
-    comparison_type value_comparison;
+    hash_key_type hash_key1;
+    hash_key_type hash_key2;
+    
+    application_key_type application_key;
+    application_value_type application_value;
 };
+
+struct cuckoo_table {
+    struct table_bin *table1;
+    struct table_bin *table2;
+    size_t table_size;
+    size_t table_used;
+    
+    hash_index_type i1;
+    hash_index_type i2;
+    
+    // These are pointers kept in the table just in case
+    // you want to change them. Otherwise, they could just
+    // as easily be static in the source file.
+    new_hash_index_func_type new_hash_index_func;
+    free_hash_index_func_type free_hash_index_func;
+    hash_func_type hash_func;
+    
+    destructor_func_type value_destructor;
+    equality_func_type value_equality;
+};
+
+void
+cuckoo_configure_hash_family(struct cuckoo_table *table,
+                             new_hash_index_func_type new_hash_index_func,
+                             free_hash_index_func_type free_hash_index_func,
+                             hash_func_type hash_func);
+
+void
+cuckoo_table_rehash          (struct cuckoo_table *tbl);
 
 #endif
 
