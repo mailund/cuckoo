@@ -30,7 +30,12 @@ static inline void bin_swap(struct table_bin *x, struct table_bin *y)
 
 
 #pragma mark hash functions
-// FIXME: this is a mock hash function
+// FIXME: this is a mock hash function id:17
+//   
+// ----
+// <https://github.com/mailund/cuckoo/issues/15>
+// Thomas Mailund
+// mailund@birc.au.dk
 static hash_index_type mock_new_hash_index(hash_index_type old)
 {
     return old;
@@ -158,7 +163,12 @@ cuckoo_table_insert_internal(struct cuckoo_table *set,
     // Get out if there is nothing to insert.
     if (cuckoo_table_contains_internal(set, x)) return;
     
-    // FIXME: what should the threshold be?
+    // FIXME: what should the threshold be? id:16
+    //   
+    // ----
+    // <https://github.com/mailund/cuckoo/issues/14>
+    // Thomas Mailund
+    // mailund@birc.au.dk
     int attempt_threshold = set->table_size;
 
     struct table_bin *bin;

@@ -8,7 +8,12 @@ static const int TABLE_SIZE = 2 * N;
 // App values are letters 'A' to 'E'. App keys are
 application_key_type app_keys[] = { 0, 1, 2, 3, 4 };
 
-// FIXME: mock up a hash function
+// FIXME: mock up a hash function id:18
+//   
+// ----
+// <https://github.com/mailund/cuckoo/issues/16>
+// Thomas Mailund
+// mailund@birc.au.dk
 hash_key_type keys1[] = { 5, 1, 5, 1, 5 };
 hash_key_type keys2[] = { 2, 2, 4, 6, 6 };
 static int hack = 0;
