@@ -23,6 +23,7 @@ CuckooHash.build
 CuckooHash.xcodeproj
 DartConfiguration.tcl
 tests/Debug/
+DerivedData
 
 # Prerequisites
 *.d
